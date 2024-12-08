@@ -37,7 +37,7 @@ public class CardTest {
     }
 
     @Test
-    void test1(){
+    void shouldSendValidForm(){
         WebElement form = driver.findElement(By.cssSelector("form"));
         form.findElement(By.cssSelector("[data-test-id='name'] input")).sendKeys("Иванова Иван");
         form.findElement(By.cssSelector("[data-test-id='phone'] input")).sendKeys("+79000000000");
@@ -48,7 +48,7 @@ public class CardTest {
         assertEquals("Ваша заявка успешно отправлена! Наш менеджер свяжется с вами в ближайшее время.", result.getText().trim());
     }
     @Test
-    void test2(){
+    void shouldSendInvalidNameForm(){
         WebElement form = driver.findElement(By.cssSelector("form"));
         form.findElement(By.cssSelector("[data-test-id='name'] input")).sendKeys("Ivanov Ivan");
         form.findElement(By.cssSelector("[data-test-id='phone'] input")).sendKeys("+79000000000");
@@ -59,7 +59,7 @@ public class CardTest {
         assertEquals("Имя и Фамилия указаные неверно. Допустимы только русские буквы, пробелы и дефисы.", result.getText().trim());
     }
     @Test
-    void test3(){
+    void shouldSendInvalidPhoneForm(){
         WebElement form = driver.findElement(By.cssSelector("form"));
         form.findElement(By.cssSelector("[data-test-id='name'] input")).sendKeys("Иванов Иван");
         form.findElement(By.cssSelector("[data-test-id='phone'] input")).sendKeys("+79");
@@ -70,7 +70,7 @@ public class CardTest {
         assertEquals("Телефон указан неверно. Должно быть 11 цифр, например, +79012345678.", result.getText().trim());
     }
     @Test
-    void test4(){
+    void shouldSendFormWithoutName(){
         WebElement form = driver.findElement(By.cssSelector("form"));
         form.findElement(By.cssSelector("[data-test-id='name'] input")).sendKeys("");
         form.findElement(By.cssSelector("[data-test-id='phone'] input")).sendKeys("+79000000000");
@@ -81,7 +81,7 @@ public class CardTest {
         assertEquals("Поле обязательно для заполнения", result.getText().trim());
     }
     @Test
-    void test5(){
+    void shouldSendFormWithoutPhone(){
         WebElement form = driver.findElement(By.cssSelector("form"));
         form.findElement(By.cssSelector("[data-test-id='name'] input")).sendKeys("Иванов Иван");
         form.findElement(By.cssSelector("[data-test-id='phone'] input")).sendKeys("");
@@ -90,6 +90,16 @@ public class CardTest {
         WebElement result = driver.findElement(By.cssSelector("[data-test-id='phone'].input_invalid .input__sub"));
         assertTrue(result.isDisplayed());
         assertEquals("Поле обязательно для заполнения", result.getText().trim());
+    }
+    @Test
+    void shouldSendFormWithoutCheckbox(){
+        WebElement form = driver.findElement(By.cssSelector("form"));
+        form.findElement(By.cssSelector("[data-test-id='name'] input")).sendKeys("Иванов Иван");
+        form.findElement(By.cssSelector("[data-test-id='phone'] input")).sendKeys("+79000000000");
+        driver.findElement(By.className("button")).click();
+        WebElement result = driver.findElement(By.cssSelector("[data-test-id='agreement'].input_invalid"));
+        assertTrue(result.isDisplayed());
+        assertEquals("Я соглашаюсь с условиями обработки и использования моих персональных данных и разрешаю сделать запрос в бюро кредитных историй", result.getText().trim());
     }
 
 
